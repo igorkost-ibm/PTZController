@@ -7,9 +7,9 @@
 </head>
 <body>
     <div id="app">
-        <p>Keyboard PTZ</p>
-        <p id="key"></p>
-        <p id="fun"></p>
+        <p  style="text-align: right; padding: 10px;">Keyboard PTZ</p>
+        <p id="key" style="text-align: right; padding: 10px;">key:</p>
+        <p id="fun" style="text-align: right; padding: 10px;">fun:</p>
     </div>
 
     <script>
@@ -35,6 +35,8 @@
         const tilt_speed = 30;
         const diag_speed = 15;
 
+        var fun = null;
+
         var stringMap = {
             "ArrowLeft": "moveLeft&par="+pan_speed,
             "ArrowRight": "moveRight&par="+pan_speed,
@@ -52,17 +54,17 @@
 
             "-": "zoomWide&par=NULL",
             "+": "zoomTele&par=NULL",
+            "=": "zoomTele&par=NULL",
             "PageUp": "zoomWide&par=NULL",
             "PageDown": "zoomTele&par=NULL",
         };
 
         function keydown(event) {
             document.removeEventListener('keydown', keydown);
-
             const key = event.key;
             document.getElementById('key').textContent = `key: ${key}`;
 
-            var fun = stringMap[key]
+            fun = stringMap[key]
             document.getElementById('fun').textContent = `fun: ${fun}`;
 
             console.log(fun)
@@ -71,20 +73,19 @@
             } else {
                 var url = base + fun;
                 makeGetRequest(url);
+                document.addEventListener('keyup', keyup);
             }
-
-            document.addEventListener('keyup', keyup);
         }
 
         function keyup(event) {
-            document.removeEventListener('keyup', keyup);
-
             const key = event.key;
             document.getElementById('key').textContent = `key:`;
             document.getElementById('fun').textContent = `fun:`;
 
-            makeGetRequest(base + "moveStop&par=NULL");
-            makeGetRequest(base + "zoomStop&par=NULL");
+            if (fun != null) {
+                makeGetRequest(base + "moveStop&par=NULL");
+                makeGetRequest(base + "zoomStop&par=NULL");
+            }
 
             document.addEventListener('keydown', keydown);
         }
