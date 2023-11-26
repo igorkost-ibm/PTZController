@@ -31,23 +31,27 @@
                 });
         }
 
+        const pan_speed = 10;
+        const tilt_speed = 20;
+        const diag_speed = 15;
+
         var stringMap = {
-            "ArrowLeft": "moveLeft",
-            "ArrowRight": "moveRight",
-            "ArrowUp": "moveUp",
-            "ArrowDown": "moveDown",
+            "ArrowLeft": "moveLeft&par="+pan_speed,
+            "ArrowRight": "moveRight&par="+pan_speed,
+            "ArrowUp": "moveUp&par="+tilt_speed,
+            "ArrowDown": "moveDown&par="+tilt_speed,
 
-            "7": "moveLeftUp",
-            "8": "moveUp",
-            "9": "moveRightUp",
-            "4": "moveLeft",
-            "6": "moveRight",
-            "1": "moveLeftDown",
-            "2": "moveDown",
-            "3": "moveDownRight",
+            "7": "moveLeftUp&par="+diag_speed,
+            "8": "moveUp&par="+pan_speed,
+            "9": "moveRightUp&par="+diag_speed,
+            "4": "moveLeft&par="+pan_speed,
+            "6": "moveRight&par="+pan_speed,
+            "1": "moveLeftDown&par="+diag_speed,
+            "2": "moveDown&par="+tilt_speed,
+            "3": "moveDownRight&par="+diag_speed,
 
-            "PageUp": "zoomTele",
-            "PageDown": "zoomWide",
+            "PageUp": "zoomTele&par=NULL",
+            "PageDown": "zoomWide&par=NULL",
         };
 
         function keydown(event) {
@@ -63,7 +67,7 @@
             if (fun == null) {
                 console.log('undefined key')
             } else {
-                var url = base + fun + "&par=10";
+                var url = base + fun;
                 makeGetRequest(url);
             }
 
