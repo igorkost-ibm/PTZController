@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Catcher</title>
+</head>
+<body>
+    <div id="app">
+        <p>Press a key to see it captured:</p>
+        <p id="capturedKey"></p>
+        <p id="info"></p>
+    </div>
+
+    <script>
+        const base = 'http://192.168.0.101/cgi-bin/rpcCommon.cgi?fun='
+
+        function makeGetRequest(apiUrl) {
+            // Use the fetch API to make a GET request
+            fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => {
+                    // Handle the response data
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Handle errors
+                    // console.error('Error:', error);
+                });
+        }
+
+        var stringMap = {
+            "ArrowLeft": "moveLeft",
+            "ArrowRight": "moveRight",
+            "ArrowUp": "moveUp",
+            "ArrowDown": "moveDown",
+        };
+
+        function keydown(event) {
+            document.removeEventListener('keydown', keydown);
+
+            const key = event.key;
+            document.getElementById('capturedKey').textContent = `key: ${key}`;
+
+            var fun = stringMap[key]
+            console.log(fun)
+            if (fun == null) {
+                document.getElementById('info').textContent = 'undefined key';
+            } else {
+                var url = base + fun + "&par=10";
+                document.getElementById('info').textContent = url;
+                makeGetRequest(url);
+            }
+        }
+
+        function keyup(event) {
+            const key = event.key;
+            document.getElementById('capturedKey').textContent = `key:`;
+
+            var url = base + "moveStop&par=NULL";
+            document.getElementById('info').textContent = url;
+            makeGetRequest(url);
+
+            document.addEventListener('keydown', keydown);
+        }
+
+        document.addEventListener('keydown', keydown);
+        document.addEventListener('keyup', keyup);
+    </script>
+</body>
+</html>
