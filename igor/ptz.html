@@ -8,8 +8,8 @@
 <body>
     <div id="app">
         <p  style="text-align: right; padding: 10px;">Keyboard PTZ</p>
-        <p id="key" style="text-align: right; padding: 10px;">key:</p>
-        <p id="fun" style="text-align: right; padding: 10px;">fun:</p>
+        <p id="key" style="text-align: right; padding: 10px;"></p>
+        <p id="fun" style="text-align: right; padding: 10px;"></p>
     </div>
 
     <script>
@@ -62,10 +62,10 @@
         function keydown(event) {
             document.removeEventListener('keydown', keydown);
             const key = event.key;
-            document.getElementById('key').textContent = `key: ${key}`;
+            document.getElementById('key').textContent = `${key}`;
 
             fun = stringMap[key]
-            document.getElementById('fun').textContent = `fun: ${fun}`;
+            document.getElementById('fun').textContent = `${fun}`;
 
             console.log(fun)
             if (fun == null) {
@@ -79,8 +79,8 @@
 
         function keyup(event) {
             const key = event.key;
-            document.getElementById('key').textContent = `key:`;
-            document.getElementById('fun').textContent = `fun:`;
+            document.getElementById('key').textContent = "";
+            document.getElementById('fun').textContent = "";
 
             if (fun != null) {
                 makeGetRequest(base + "moveStop&par=NULL");
