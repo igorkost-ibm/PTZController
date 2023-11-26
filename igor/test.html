@@ -36,6 +36,18 @@
             "ArrowRight": "moveRight",
             "ArrowUp": "moveUp",
             "ArrowDown": "moveDown",
+
+            "7": "moveLeftUp",
+            "8": "moveUp",
+            "9": "moveRightUp",
+            "4": "moveLeft",
+            "6": "moveRight",
+            "1": "moveLeftDown",
+            "2": "moveDown",
+            "3": "moveDownRight",
+
+            "PageUp": "zoomTele",
+            "PageDown": "zoomWide",
         };
 
         function keydown(event) {
@@ -54,21 +66,24 @@
                 var url = base + fun + "&par=10";
                 makeGetRequest(url);
             }
+
+            document.addEventListener('keyup', keyup);
         }
 
         function keyup(event) {
+            document.removeEventListener('keyup', keyup);
+
             const key = event.key;
             document.getElementById('key').textContent = `key:`;
             document.getElementById('fun').textContent = `fun:`;
 
-            var url = base + "moveStop&par=NULL";
-            makeGetRequest(url);
+            makeGetRequest(base + "moveStop&par=NULL");
+            makeGetRequest(base + "zoomStop&par=NULL");
 
             document.addEventListener('keydown', keydown);
         }
 
         document.addEventListener('keydown', keydown);
-        document.addEventListener('keyup', keyup);
     </script>
 </body>
 </html>
