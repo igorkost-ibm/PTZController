@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTSP Stream Player</title>
+    <script src="rtsp://192.168.0.101:554/ch0.liv"></script>
+</head>
+<body>
+    <video id="video" controls></video>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var video = document.getElementById('video');
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource('your_rtsp_stream_url');
+                hls.attachMedia(video);
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = 'your_rtsp_stream_url';
+            }
+        });
+    </script>
+</body>
+</html>
